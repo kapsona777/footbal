@@ -126,101 +126,107 @@
                 border:1px solid #fff !important; 
             } 
 
-            .deleteBtn{ 
-                background-color:red;
-                border-radius: .5rem;
-                padding: 5px; 
-                width:100px; 
-                text-decoration:none; 
-                font-weight: bold;
-                color: #fff; 
+            .editBtn{
+                color: #fff;
+                text-decoration: underline;
                 cursor: pointer;
+                background-color:#282c2e;
+            }
+
+            .logoutButton{
+                margin-top: 20px;
+                background-color:white;
+                border-radius: .5rem;
+                padding: 10px; 
+            }
+
+            .editable-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100vh;
                 background-color: #282c2e;
+                color: #fff;
             }
-            .deleteBtn:hover{
-                background-color:red;
-                color:white;
-                border:1px solid #fff !important;
+
+            .editable-content input {
+                width: 100%;
+                max-width: 400px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                border: 1px solid #fff;
+                background-color: #282c2e;
+                color: #fff;
             }
-            .editBtn{ 
-                background-color:green;
-                border-radius: .5rem;
-                padding: 5px; 
-                width:100px; 
-                text-decoration:none; 
-                font-weight: bold;
-                color: #fff; 
-                cursor: pointer;
-                background-color:#282c2e; 
+
+            .editable-content img {
+                width: 100%;
+                max-width: 400px;
+                margin-bottom: 10px;
             }
-            .editBtn:hover{
-                background-color:green;
-                color:white;
-                border:1px solid #fff !important;
+
+            .editable-content button {
+                width: 100%;
+                max-width: 400px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                border: 1px solid #fff;
+                background-color: #282c2e;
+                color: #fff;
             }
+
+            .editable-content button:hover {
+                background-color: #fff;
+                color: #282c2e;
+                border: 1px solid #282c2e;
+            }
+
+            .editable-content a {
+                width: 100%;
+                max-width: 400px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                border: 1px solid #fff;
+                background-color: #282c2e;
+                color: #fff;
+                text-decoration: none;
+            }
+
+            .editable-content a:hover {
+                background-color: #fff;
+                color: #282c2e;
+                border: 1px solid #282c2e;
+            }
+
+            .editable-content .error {
+                color: red;
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
         </style>
     </head>
     @if(session('user'))
-    <body class="antialiased">
-        <!-- go back button -->
-        <div class="flex-row"> 
-            <a href = "{{ url('/viewTeams') }}" class="viewPlayersBtn"><-See Teams</a>
-        </div>
-        <div class="relative flex-column items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0"> 
-            @foreach($teams as $team) 
-            <h1 class="flex justify-center">Players of {{$team->name}} </h1> 
-            @endforeach
-                <div class="flex-row justify-center">
-                    <a href="/addPlayer" class="flex-row justify-center editBtn">Add Player</a>
-                </div> 
-                <br>
-            <div class="flex-row gap-4 justify-center">  
-            
-
-                @foreach($players as $player) 
-                <div class="flex-column fulldiv p-6 justify-center"> 
-                    @if(session('user')['position_id'] == 2)   
-                        <form action="/deletePlayer/{{$player->id}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="deleteBtn" id="deleteBtn">Delete</button>  
-
-                        </form>   
-                    @endif 
-                    
-                    <form  style="padding-top:5px;" action="/editPlayer/{{$player->id}}" method="POST"> 
-                        @csrf
-                        @method('GET')
-                        <button type="submit" class="editBtn">Edit</button> 
-                    </form>
-                    <br>
-                    <table>
-                        <tr>
-                            <td>Name</td>
-                            <td>{{$player->name}}</td>
-                        </tr>
-                        <tr>
-                            <td>Lastname</td>
-                            <td>{{$player->lastname}}</td>
-                        </tr>
-                        <tr>
-                            <td>Age</td>
-                            <td>{{$player->age}}</td>
-                        </tr>
-                        <tr>
-                            <td>Team</td>
-                            <td>{{$player->team_id}}</td>
-                        </tr>
-                        <tr>
-                            <td>Team Name</td>
-                            @foreach($teams as $team)
-                            <td>{{$team->name}}</td>
-                            @endforeach
-                        </tr>
-                    </table>
-                </div> 
-                @endforeach
-            </div> 
+    <body class="antialiased">  
+        <div class="editable-content">
+            <!-- player name,lastname, age,team_id -->
+            <form action="/updatePlayer/{{$player->id}}" method="post">
+                @csrf
+                <input type="hidden" name="id" value="{{$player->id}}">
+                <input type="text" name="name" placeholder="Player Name" value="{{$player->name}}">
+                <input type="text" name="lastname" placeholder="Player Lastname" value="{{$player->lastname}}">
+                <input type="number" name="age" placeholder="Player Age" value="{{$player->age}}">
+                <select name="team_id">
+                    @foreach($teams as $team)
+                        <option value="{{$team->id}}" @if($team->id == $player->team_id) selected @endif>{{$team->name}}</option>
+                    @endforeach
+                </select>
+                <button type="submit">Edit Player</button>
         </div>
     </body> 
     @else

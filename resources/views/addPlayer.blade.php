@@ -125,7 +125,23 @@
                 border-radius: .5rem; 
                 border:1px solid #fff !important; 
             } 
-
+            .logoutButton{
+                margin-top: 20px;
+                background-color:white;
+                border-radius: .5rem;
+                padding: 10px; 
+                width:200px; 
+                text-decoration:none; 
+                font-weight: bold;
+                color: #282c2e; 
+                cursor: pointer;
+                background-color:white; 
+            }
+            .logoutButton:hover{
+                background-color:#282c2e;
+                color:white;
+                border:1px solid #fff !important;
+            }
             .deleteBtn{ 
                 background-color:red;
                 border-radius: .5rem;
@@ -158,70 +174,49 @@
                 color:white;
                 border:1px solid #fff !important;
             }
+             
         </style>
     </head>
     @if(session('user'))
     <body class="antialiased">
-        <!-- go back button -->
-        <div class="flex-row"> 
-            <a href = "{{ url('/viewTeams') }}" class="viewPlayersBtn"><-See Teams</a>
-        </div>
-        <div class="relative flex-column items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0"> 
-            @foreach($teams as $team) 
-            <h1 class="flex justify-center">Players of {{$team->name}} </h1> 
-            @endforeach
-                <div class="flex-row justify-center">
-                    <a href="/addPlayer" class="flex-row justify-center editBtn">Add Player</a>
-                </div> 
-                <br>
-            <div class="flex-row gap-4 justify-center">  
-            
+        <div class="flex-column relative flex-column justify-center">
+            <!-- add player form name,lastname,age,team_id -->
 
-                @foreach($players as $player) 
-                <div class="flex-column fulldiv p-6 justify-center"> 
-                    @if(session('user')['position_id'] == 2)   
-                        <form action="/deletePlayer/{{$player->id}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="deleteBtn" id="deleteBtn">Delete</button>  
+            <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                <h1 class="text-4xl">Add Player</h1>
+            </div>
 
-                        </form>   
-                    @endif 
-                    
-                    <form  style="padding-top:5px;" action="/editPlayer/{{$player->id}}" method="POST"> 
-                        @csrf
-                        @method('GET')
-                        <button type="submit" class="editBtn">Edit</button> 
-                    </form>
-                    <br>
-                    <table>
-                        <tr>
-                            <td>Name</td>
-                            <td>{{$player->name}}</td>
-                        </tr>
-                        <tr>
-                            <td>Lastname</td>
-                            <td>{{$player->lastname}}</td>
-                        </tr>
-                        <tr>
-                            <td>Age</td>
-                            <td>{{$player->age}}</td>
-                        </tr>
-                        <tr>
-                            <td>Team</td>
-                            <td>{{$player->team_id}}</td>
-                        </tr>
-                        <tr>
-                            <td>Team Name</td>
+            <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                <form action="{{ route('savePlayers') }}" method="POST" enctype="multipart/form-data" class="flex-column">
+                    @csrf
+                    <div class="flex-column">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" class="h-8 rounded-md" required>
+                    </div>
+                    <div class="flex-column">
+                        <label for="lastname">Lastname</label>
+                        <input type="text" name="lastname" id="lastname" class="h-8 rounded-md" required> 
+                    </div>
+                    <div class="flex-column">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" class="h-8 rounded-md" required> 
+                    </div>
+                    <div class="flex-column">
+                        <label for="team_id">Team</label>
+                        <select name="team_id" id="team_id" class="h-8 rounded-md" required>
                             @foreach($teams as $team)
-                            <td>{{$team->name}}</td>
+                                <option value="{{ $team->id }}">{{ $team->name }}</option>
                             @endforeach
-                        </tr>
-                    </table>
-                </div> 
-                @endforeach
-            </div> 
+                        </select>
+                    </div>
+                    <div class="flex-column">
+                        <button type="submit" class="h-8 bg-gray-300 rounded-md" id="add_team">Add Team</button>
+                    </div> 
+                </form>
+            </div>
+
         </div>
+
     </body> 
     @else
 
@@ -237,4 +232,4 @@
         </body>
     
     @endif
-</html> 
+</html>

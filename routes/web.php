@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\TeamsController; 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserController; 
+use App\Models\Teams;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,6 @@ Route::post('/registerUser', [UserController::class, 'registerUser'])->name('reg
 // teams route
 
 Route::get('/viewTeams',  [TeamsController::class, 'viewTeams']); 
-Route::get('/viewPlayers/{team_id}', [PlayersController::class, 'viewPlayers']); 
 
 // delete team route
 
@@ -58,6 +58,31 @@ Route::get('/editTeam/{id}', [TeamsController::class, 'editTeam']);
 Route::post('/updateTeam/{id}', [TeamsController::class, 'updateTeam'])->name('updateTeam');
 
 Route::post('/saveTeams', [TeamsController::class, 'saveTeams'])->name('saveTeams');
+
+// players route 
+
+Route::get('/viewPlayers/{team_id}', [PlayersController::class, 'viewPlayers']); 
+
+// delete player route
+
+Route::delete('/deletePlayer/{id}', [PlayersController::class, 'deletePlayer']);
+
+// add player route
+
+Route::get('/addPlayer', function(){ 
+    $teams = Teams::where('active', 1)->get();
+    return view('addPlayer', ['teams' => $teams]);
+});
+
+// edit player route
+
+Route::get('/editPlayer/{id}', [PlayersController::class, 'editPlayer']);
+Route::post('/updatePlayer/{id}', [PlayersController::class, 'updatePlayer'])->name('updatePlayer');
+Route::post('/savePlayers', [PlayersController::class, 'savePlayers'])->name('savePlayers'); 
+
+
+
+
 
 
 
