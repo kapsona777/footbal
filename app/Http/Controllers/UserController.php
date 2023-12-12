@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Users;
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;  
 
 class UserController extends Controller
 {   
@@ -12,13 +12,11 @@ class UserController extends Controller
         return view('register');
     }
 
-    public function registerUser(Request $request){ 
+    public function registerUser(Request $request){  
 
-        $token = md5(rand(1, 10) . microtime());
         $users = new Users();
         $users->name = $request->name;
-        $users->email = $request->email;
-        $users->token = $token;
+        $users->email = $request->email; 
         $users->password = Hash::make($request->password);
         $users->created_at = date('Y-m-d H:i:s');
         $users->updated_at = date('Y-m-d H:i:s');
@@ -29,34 +27,31 @@ class UserController extends Controller
     }
 
     public function login(){
-        return view('login');
+        return view('welcome');
     }
 
-    public function loginUser(Request $request){
-        $request->validate([
-            'email' => 'required|email', 
-            'password' => 'required'
-        ]);
+    public function loginUser(Request $request){ 
+        $userEmail = $request->email;
+        $userPassword = $request->password;
 
-        $user = Users::where('email', $request->email)->first(); 
-        if($user){
-            if(Hash::check($request->password, $user->password)){
-                $request->session()->put('user', $user); 
+        $email = Users::where('email', $userEmail)->first();
+        if($email){
+            if(Hash::check($userPassword, $email->password)){
+                $request->session()->put('user', $email);
                 return redirect('/viewTeams');
             }else{
-                return back()->with('error', 'Invalid password');
+                return back()->with('status', 'Invalid Password');
             }
         }else{
-            return back()->with('error', 'No user found for this email');
+            return back()->with('status', 'Invalid Email');
         }
     }
 
     public function logout(){
-        if(session()->has('user')){
-            session()->pull('user'); 
-            return redirect('/login');
+        if(session()->has('email')){
+            session()->pull('user');
+            return view('/login');
         }
-    }
-
+    } 
 
 }

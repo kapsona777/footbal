@@ -84,7 +84,7 @@
                         <h1 class="auth-form__title">Login</h1>
                     </div>
                     <div class="auth-form__form">
-                        <form action="{{ route('login') }}" method="POST">
+                        <form action="{{ route('loginUser') }}" method="POST">
                             @csrf
                             <div class="auth-form__group">
                                 <label for="email" class="auth-form__label">Email</label>

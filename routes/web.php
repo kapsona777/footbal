@@ -20,12 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// login route 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');  
+// login route   
+Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::post('/loginUser', [UserController::class, 'loginUser'])->name('loginUser');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+Route::get('/logout', function(){
+    if(session()->has('user')){
+        session()->pull('user');
+        return redirect('/login');
+    }
+})->name('logout'); 
 
 // register route
 

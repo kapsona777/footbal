@@ -125,15 +125,35 @@
                 border-radius: .5rem; 
                 border:1px solid #fff !important; 
             } 
+            .logoutButton{
+                margin-top: 20px;
+                background-color:white;
+                border-radius: .5rem;
+                padding: 10px; 
+                width:200px; 
+                text-decoration:none; 
+                font-weight: bold;
+                color: #282c2e; 
+                cursor: pointer;
+                background-color:white; 
+            }
+            .logoutButton:hover{
+                background-color:#282c2e;
+                color:white;
+                border:1px solid #fff !important;
+            }
+             
         </style>
     </head>
     <body class="antialiased">
-        <div class="relative flex-column items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        <div class="flex-column relative flex-column justify-center">
              <!-- football team name and logo --> 
 
-             <h1>Football Teams</h1>
+             <h3 class="flex-row justify-center">Hello {{ session('user')['name'] }}</h3>
 
-                <div class="flex-row gap-4">
+             <h1 class="flex-row justify-center">Football Teams</h1>
+
+                <div class="flex-row justify-center gap-4">
                     @foreach ($teams as $team)
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
                             <div class="p-6 bg-white border-b border-gray-200 fulldiv">
@@ -149,5 +169,11 @@
                 </div>
 
         </div>
+
+        <!-- logout -->
+        <div class="flex-row justify-center">
+            <a href="/logout" class="flex-row logoutButton justify-center">Logout</a>
+        </div>
+
     </body>
 </html>
