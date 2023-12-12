@@ -33,4 +33,27 @@ class TeamsController extends Controller
 
         return redirect('/viewTeams');
     } 
+
+    public function editTeam($id){ 
+        $team = Teams::find($id);
+        return view('editTeam', ['team' => $team]);
+    }
+
+    public function updateTeam(Request $request, $id){
+        $teams = Teams::find($id);
+        $teams->name = $request->name;     
+        $file= $request->file('logo');
+        if($file != null){
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('images', $filename);
+            $teams->logo = $filename; 
+        }else{
+            $teams->logo = $teams->logo;
+        }
+
+        $teams->save(); 
+         
+        return redirect('/viewTeams');
+    }
 }

@@ -177,6 +177,7 @@
              
         </style>
     </head>
+    @if(session('user'))
     <body class="antialiased">
         <div class="flex-column relative flex-column justify-center">
             <!-- add team form name,logo -->
@@ -210,4 +211,18 @@
         </div>
 
     </body> 
+    @else
+
+        <body class="antialiased">
+            <div class="flex-column relative flex-column justify-center">
+                <div class="flex-row justify-center">
+                    <h1 class="text-4xl">Please Login</h1>
+                </div>
+                <div class="flex-row justify-center">
+                    <a href="/login" class="flex-row justify-center editBtn">Login</a>
+                </div>
+            </div>
+        </body>
+    
+    @endif
 </html>

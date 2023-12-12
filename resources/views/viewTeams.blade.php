@@ -177,6 +177,10 @@
              
         </style>
     </head>
+
+    @if(session('user'))
+        
+
     <body class="antialiased">
         <div class="flex-column relative flex-column justify-center">
              <!-- football team name and logo --> 
@@ -200,13 +204,15 @@
                                     <form action="/deleteTeam/{{$team->id}}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="deleteBtn">Delete</button>
-                                    </form>  
-                                @endif
-                                <!-- edit Button -->  
-                                <form action="/editTeam/{{$team->id}}" style="padding-top:5px;" method="GET">
+                                        <button type="submit" class="deleteBtn" id="deleteBtn">Delete</button>  
+
+                                    </form>   
+                                @endif 
+                                
+                                <form  style="padding-top:5px;" action="/editTeam/{{$team->id}}" method="POST"> 
                                     @csrf
-                                    <button type="submit" class="editBtn">Edit</button>
+                                    @method('GET')
+                                    <button type="submit" class="editBtn">Edit</button> 
                                 </form>
                                 <br>
                                 <img src="images/{{$team->logo}}" alt="team logo" class="flex-row justify-center" width="100" height="100">
@@ -228,4 +234,18 @@
         </div>
 
     </body>
+    @else
+
+        <body class="antialiased">
+            <div class="flex-column relative flex-column justify-center">
+                <div class="flex-row justify-center">
+                    <h1 class="text-4xl">Please Login</h1>
+                </div>
+                <div class="flex-row justify-center">
+                    <a href="/login" class="flex-row justify-center editBtn">Login</a>
+                </div>
+            </div>
+        </body>
+    
+    @endif 
 </html>

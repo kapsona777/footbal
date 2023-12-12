@@ -52,6 +52,13 @@ Route::get('/addTeam', function(){
     return view('addTeam');
 });
 
+// edit team route
+
+Route::get('/editTeam/{id}', [TeamsController::class, 'editTeam']); 
+Route::post('/updateTeam/{id}', [TeamsController::class, 'updateTeam'])->name('updateTeam');
+
 Route::post('/saveTeams', [TeamsController::class, 'saveTeams'])->name('saveTeams');
+
+
 
 
