@@ -42,4 +42,16 @@ Route::post('/registerUser', [UserController::class, 'registerUser'])->name('reg
 Route::get('/viewTeams',  [TeamsController::class, 'viewTeams']); 
 Route::get('/viewPlayers/{team_id}', [PlayersController::class, 'viewPlayers']); 
 
+// delete team route
+
+Route::delete('/deleteTeam/{id}', [TeamsController::class, 'deleteTeam']);
+
+// add team route
+
+Route::get('/addTeam', function(){
+    return view('addTeam');
+});
+
+Route::post('/saveTeams', [TeamsController::class, 'saveTeams'])->name('saveTeams');
+
 

@@ -179,53 +179,35 @@
     </head>
     <body class="antialiased">
         <div class="flex-column relative flex-column justify-center">
-             <!-- football team name and logo --> 
+            <!-- add team form name,logo -->
 
-             <span class="flex-row justify-center">Hello </span>
-             <span class="flex-row justify-center" style="color:green;">{{ session('user')['name'] }}</span>
+            <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                <h1 class="text-4xl">Add Team</h1>
+            </div>
 
-             <h1 class="flex-row justify-center">Football Teams</h1>
-
-             <div class="flex-row justify-center">
-                <a href="/addTeam" class="flex-row justify-center editBtn">Add Team</a>
-            </div> 
-            <br>
-
-                <div class="flex-row justify-center gap-4">
-                    @foreach ($teams as $team)
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
-                            <div class="p-6 bg-white border-b border-gray-200 fulldiv">
-                                
-                                @if(session('user')['position_id'] == 2)   
-                                    <form action="/deleteTeam/{{$team->id}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="deleteBtn">Delete</button>
-                                    </form>  
-                                @endif
-                                <!-- edit Button -->  
-                                <form action="/editTeam/{{$team->id}}" style="padding-top:5px;" method="GET">
-                                    @csrf
-                                    <button type="submit" class="editBtn">Edit</button>
-                                </form>
-                                <br>
-                                <img src="images/{{$team->logo}}" alt="team logo" class="flex-row justify-center" width="100" height="100">
-                                <h3 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                                    {{ $team->name }}
-                                </h3>
-
-                                <a href="/viewPlayers/{{$team->id}}" class="viewPlayersBtn">View Players</a>
+            <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                <form action="{{ route('saveTeams') }}" method="POST" enctype="multipart/form-data" class="flex-column">
+                    @csrf
+                    <div class="flex-column">
+                        <label for="name">Team Name</label>
+                        <input type="text" name="name" id="name" class="h-8 border-gray-300 border-2 rounded-md" placeholder="Team Name">
+                    </div>
+                    <div class="flex-column">
+                        <label for="logo">Team Logo</label>
+                        <input type="file" name="logo" id="logo" class="h-8 border-gray-300 border-2 rounded-md" accept=".png, .jpg, .jpeg" placeholder="Team Logo">
+                        @error('logo')
+                            <div class="flex-column">
+                                <span class="text-red-500">{{ $message }}</span>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @enderror    
+                    </div>  
+                    <div class="flex-column">
+                        <button type="submit" class="h-8 bg-gray-300 rounded-md" id="add_team">Add Team</button>
+                    </div> 
+                </form>
+            </div>
 
         </div>
 
-        <!-- logout -->
-        <div class="flex-row justify-center">
-            <a href="/logout" class="flex-row logoutButton justify-center">Logout</a>
-        </div>
-
-    </body>
+    </body> 
 </html>
