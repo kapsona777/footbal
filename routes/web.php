@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\PlayersController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\TeamsController; 
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/viewTeams',  [TeamsController::class, 'viewTeams']);
+// login route 
+Route::get('/login', function () {
+    return view('login');
+})->name('login');  
+Route::post('/loginUser', [UserController::class, 'loginUser'])->name('loginUser');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/viewPlayers/{team_id}', [PlayersController::class, 'viewPlayers']);
+// register route
+
+Route::get('/register', [UserController::class, 'register'])->name('register');  
+Route::post('/registerUser', [UserController::class, 'registerUser'])->name('registerUser');
+
+// teams route
+
+Route::get('/viewTeams',  [TeamsController::class, 'viewTeams']); 
+Route::get('/viewPlayers/{team_id}', [PlayersController::class, 'viewPlayers']); 
+
+

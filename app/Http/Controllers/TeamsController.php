@@ -10,11 +10,7 @@ class TeamsController extends Controller
 
     public function viewTeams(){  
         return view('viewTeams', ['teams' => Teams::where('active', 1)->get()]);
-    }
-
-    // public function viewSpecificTeam($team_id){
-    //     return view('viewPlayers', ['teams' => Teams::where('active', 1)->where('id', $team_id)->get()]);
-    // }
+    } 
 
     public function saveTeams(Request $request){ 
         $teams = new Teams;
