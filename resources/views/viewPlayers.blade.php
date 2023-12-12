@@ -128,26 +128,44 @@
         </style>
     </head>
     <body class="antialiased">
-        <div class="relative flex-column items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-             <!-- football team name and logo --> 
-
-             <h1>Football Teams</h1>
-
-                <div class="flex-row gap-4">
-                    @foreach ($teams as $team)
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
-                            <div class="p-6 bg-white border-b border-gray-200 fulldiv">
-                                <img src="images/{{$team->logo}}" alt="team logo" width="100" height="100">
-                                <h3 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                                    {{ $team->name }}
-                                </h3>
-
-                                <a href="/viewPlayers/{{$team->id}}" class="viewPlayersBtn">View Players</a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
+        <!-- go back button -->
+        <div class="flex-row"> 
+            <a href = "{{ url('/viewTeams') }}" class="viewPlayersBtn">See Teams</a>
+        </div>
+        <div class="relative flex-column items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0"> 
+            @foreach($teams as $team) 
+            <h1>Players of {{$team->name}} </h1> 
+            @endforeach
+            <div class="flex-row gap-4"> 
+                @foreach($players as $player)
+                <div class="flex-column fulldiv p-6"> 
+                    <table>
+                        <tr>
+                            <td>Name</td>
+                            <td>{{$player->name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Lastname</td>
+                            <td>{{$player->lastname}}</td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td>{{$player->age}}</td>
+                        </tr>
+                        <tr>
+                            <td>Team</td>
+                            <td>{{$player->team_id}}</td>
+                        </tr>
+                        <tr>
+                            <td>Team Name</td>
+                            @foreach($teams as $team)
+                            <td>{{$team->name}}</td>
+                            @endforeach
+                        </tr>
+                    </table>
+                </div> 
+                @endforeach
+            </div> 
         </div>
     </body>
-</html>
+</html> 

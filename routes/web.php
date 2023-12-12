@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\PlayersController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\TeamsController; 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +20,5 @@ Route::get('/', function () {
 });
 
 Route::get('/viewTeams',  [TeamsController::class, 'viewTeams']);
+
+Route::get('/viewPlayers/{team_id}', [PlayersController::class, 'viewPlayers']);
